@@ -1,0 +1,94 @@
+<html>
+<head> <!-- {{{ -->
+<!--
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+-->
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<!-- bootstrap -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/starter-template.css">
+<!-- google chart API -->
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization',
+       'version':'1','packages':['timeline']}]}"></script>
+<script type="text/javascript">
+//google.setOnLoadCallback(drawChart);
+function drawChart(json) {
+  var container = document.getElementById('example1');
+  var chart = new google.visualization.Timeline(container);
+  var dataTable = new google.visualization.DataTable();
+
+  dataTable.addColumn({ type: 'string', id: 'JobName' });
+  dataTable.addColumn({ type: 'date', id: 'Start' });
+  dataTable.addColumn({ type: 'date', id: 'End' });
+
+  for(var i in json) {
+    var start_year = json[i].start.substring(0,4);
+    var start_month = json[i].start.substring(5,7);
+    var start_day = json[i].start.substring(8,10);
+    var start_hour = json[i].start.substring(11,13);
+    var start_min = json[i].start.substring(14,16);
+    var start_sec = json[i].start.substring(17,19);
+    var end_year = json[i].end.substring(0,4);
+    var end_month = json[i].end.substring(5,7);
+    var end_day = json[i].end.substring(8,10);
+    var end_hour = json[i].end.substring(11,13);
+    var end_min = json[i].end.substring(14,16);
+    var end_sec = json[i].end.substring(17,19);
+    dataTable.addRows([
+      [json[i].name, new Date(start_year,start_month,start_day,start_hour,start_min,start_sec), new Date(end_year,end_month,end_day,end_hour,end_min,end_sec)],
+    ]);
+  }
+
+  chart.clearChart();
+  chart.draw(dataTable);
+}
+
+$(function() {
+/*
+    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
+*/
+    $( "#datepicker" ).change(function() {
+        var json = 'http://192.168.33.20:4567/api/' + $(this).val();
+	$.getJSON(json, function(res){
+		//console.log(res);
+		drawChart(res);
+        });
+    });
+});
+</script>
+</head><!-- }}} -->
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">AJS Result</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/upload">Upload</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
+<div class="starter-template">
+    <form class="form-signin" role="form">
+      <p style="margin:10px; width: 20%;">AJS Result Date: <input type="date" id="datepicker" class="form-control"></p>
+    </form>
+    <div id="example1" style="margin: 0 1% 0 1%;"></div>
+</div>
+
+</body></html>
