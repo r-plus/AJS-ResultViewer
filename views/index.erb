@@ -44,9 +44,12 @@ function drawChart(json) {
       [json[i].name, new Date(start_year,start_month,start_day,start_hour,start_min,start_sec), new Date(end_year,end_month,end_day,end_hour,end_min,end_sec)],
     ]);
   }
+  var options = {
+    height: 550
+  };
 
   chart.clearChart();
-  chart.draw(dataTable);
+  chart.draw(dataTable,options);
 }
 
 $(function() {
@@ -55,10 +58,10 @@ $(function() {
     $( "#datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
 */
     $( "#datepicker" ).change(function() {
-        var json = 'http://192.168.33.20:4567/api/' + $(this).val();
-	$.getJSON(json, function(res){
-		//console.log(res);
-		drawChart(res);
+        var json = 'http://192.168.167.32/api/' + $(this).val();
+        $.getJSON(json, function(res){
+                //console.log(res);
+                drawChart(res);
         });
     });
 });
@@ -80,7 +83,7 @@ $(function() {
         <li class="active"><a href="/">Home</a></li>
         <li><a href="/upload">Upload</a></li>
       </ul>
-    </div><!--/.nav-collapse -->
+    </div>
   </div>
 </div>
 
@@ -88,7 +91,7 @@ $(function() {
     <form class="form-signin" role="form">
       <p style="margin:10px; width: 20%;">AJS Result Date: <input type="date" id="datepicker" class="form-control"></p>
     </form>
-    <div id="example1" style="margin: 0 1% 0 1%;"></div>
+    <div id="example1"></div>
 </div>
 
 </body></html>
