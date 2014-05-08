@@ -11,6 +11,10 @@ curl -XPUT 'http://localhost:9200/_template/ajs' -d '
           "type": "string",
           "index": "not_analyzed"
         },
+        "@timestamp": {
+          "type": "date",
+          "index": "not_analyzed"
+        },
         "start": {
           "type": "date",
           "index": "not_analyzed"
