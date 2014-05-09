@@ -7,8 +7,6 @@ require 'elasticsearch'
 
 set :environment, :production
 
-client = Elasticsearch::Client.new log: false
-
 get '/' do
   erb :index
 end
@@ -19,13 +17,16 @@ get '/api/:date' do
   targetDate = DateTime.parse(params[:date])
   nextDate = targetDate.next_day()
   array = []
-  list = client.search index: 'ajs', body:{ query: { range: { start: {gte: targetDate, lte: nextDate} } } }
+  client = Elasticsearch::Client.new log: false
+  #list = client.search index: 'ajs', body:{ from: 0, size: 100, filter: { range: { start: {gte: targetDate, lte: nextDate}} } }
+  list = client.search index: 'ajs', body:{ from: 0, size: 100, filter: { and: [{ range: { start: {gte: targetDate, lte: nextDate}} }, {prefix: {category: 'net'}}] }}
   list['hits']['hits'].each do |item|
     start_time = DateTime.parse(item['_source']['start'])
     end_time = DateTime.parse(item['_source']['end'])
-    array.push({:name => item['_source']['name'], :start => start_time, :end => end_time})
+    array << {:name => item['_source']['name'], :start => start_time, :end => end_time}
   end
-  array.to_json
+  array.sort_by{|h| h[:start]}.to_json
+  #array.to_json
 end
 
 get '/upload' do
