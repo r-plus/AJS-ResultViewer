@@ -58,7 +58,7 @@ $(function() {
     $( "#datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
 */
     $( "#datepicker" ).change(function() {
-        var json = 'http://192.168.167.32/api/' + $(this).val();
+        var json = "<%= app_root %>/api/" + $(this).val();
         $.getJSON(json, function(res){
                 //console.log(res);
                 drawChart(res);

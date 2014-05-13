@@ -6,6 +6,7 @@ require 'sinatra'
 require 'haml'
 require 'date'
 require 'elasticsearch'
+require './helpers/helper'
 
 set :environment, :production
 
