@@ -8,7 +8,9 @@
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 -->
 <!-- jQuery -->
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <!-- bootstrap -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
@@ -53,10 +55,8 @@ function drawChart(json) {
 }
 
 $(function() {
-/*
     $( "#datepicker" ).datepicker();
     $( "#datepicker" ).datepicker("option", "dateFormat", "yy-mm-dd");
-*/
     $( "#datepicker" ).change(function() {
         var json = "<%= app_root %>/api/" + $(this).val();
         $.getJSON(json, function(res){
@@ -88,10 +88,13 @@ $(function() {
 </div>
 
 <div class="starter-template">
-    <form class="form-signin" role="form">
-      <p style="margin:10px; width: 20%;">AJS Result Date: <input type="date" id="datepicker" class="form-control"></p>
-    </form>
-    <div id="example1"></div>
+  <form>
+    <div class="form-group" style="margin:10px; width: 20%;">
+      <label for="datepicker">AJS Result Date</label>
+      <input type="text" id="datepicker" class="form-control" />
+    </div>
+  </form>
+  <div id="example1"></div>
 </div>
 
 </body></html>
