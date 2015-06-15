@@ -46,12 +46,8 @@ function drawChart(json) {
       [json[i].name, new Date(start_year,start_month,start_day,start_hour,start_min,start_sec), new Date(end_year,end_month,end_day,end_hour,end_min,end_sec)],
     ]);
   }
-  var options = {
-    height: 550
-  };
-
   chart.clearChart();
-  chart.draw(dataTable,options);
+  chart.draw(dataTable);
 }
 
 $(function() {
@@ -94,7 +90,7 @@ $(function() {
       <input type="text" id="datepicker" class="form-control" />
     </div>
   </form>
-  <div id="example1"></div>
+  <div id="example1" style="height: 80%;"></div>
 </div>
 
 </body></html>
